@@ -24,8 +24,8 @@ def run_inference(javac_commands,args):
 		cmd = CFI_command + ["-classpath", cp, "checkers.inference.InferenceLauncher" , 
 				     "--checker" ,args.checker, "--solver", args.solver , 
 				     "--mode" , args.mode ,"--hacks=true","--targetclasspath", target_cp, "-afud", args.afuOutputDir]
-		for jf in jc['java_files']:
-			cmd = cmd + [jf]				     
+		for java_file in jc['java_files']:
+			cmd = cmd + [java_file]				     
 		print ("Running %s" % cmd)
 		try:
 			print (subprocess.check_output(cmd, stderr=subprocess.STDOUT))
