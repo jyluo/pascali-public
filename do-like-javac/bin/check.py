@@ -17,9 +17,22 @@ def run_checker(javac_commands,args):
 		pprint.pformat(jc)
 		javac_switches = jc['javac_switches']
 		cp = javac_switches['classpath']
-		java_files = ' '.join(jc['java_files'])
-		cmd = checker_command + ["-processor", args.checker, "-classpath", cp, java_files]
-		print ("Running %s" % cmd)
+		cmd = checker_command + ["-processor"]
+
+		# ensure all args passed to the checker are appended as an element of the cmd argument list
+		# otherwise it treats it as a single long string (the processor name argument)
+		for arg in args.checker.split(' '):
+			cmd = cmd + [arg]
+
+		cmd = cmd + ["-classpath", cp]
+		
+		# ensure every java file is appended separately as an element of the cmd argument list
+		# otherwise it treats the set of files as a single long string (file argument) and expects
+		# to find 1 file with that long name
+		for jf in jc['java_files']:
+			cmd = cmd + [jf]
+		
+		print ("Running %s" % ' '.join(cmd))
 		try:
 			print (subprocess.check_output(cmd, stderr=subprocess.STDOUT))
 		except subprocess.CalledProcessError as e:
