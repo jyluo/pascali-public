@@ -29,8 +29,8 @@ def run_checker(javac_commands,args):
 		# ensure every java file is appended separately as an element of the cmd argument list
 		# otherwise it treats the set of files as a single long string (file argument) and expects
 		# to find 1 file with that long name
-		for jf in jc['java_files']:
-			cmd = cmd + [jf]
+		for java_file in jc['java_files']:
+			cmd = cmd + [java_file]
 		
 		print ("Running %s" % ' '.join(cmd))
 		try:
